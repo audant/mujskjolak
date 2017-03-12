@@ -1,0 +1,1 @@
+&message=Přihlášení se nezdařilo, zadejte správné údaje.&uspech=no

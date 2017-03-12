@@ -1,0 +1,150 @@
+{
+    "znamkyZaka": [
+        {
+            "datum": "2017-03-02",
+            "vaha": "3",
+            "popis": "Výzdoba třídy",
+            "zanmka": "1",
+            "predmet": "PČ",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-03-02",
+            "vaha": "3",
+            "popis": "Mluvní cvičení",
+            "zanmka": "2",
+            "predmet": "ČJ",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-02-27",
+            "vaha": "2",
+            "popis": "Slovíčka",
+            "zanmka": "2",
+            "predmet": "AJ",
+            "ucitel": "Markéta Kunstová"
+        },
+        {
+            "datum": "2017-02-25",
+            "vaha": "4",
+            "popis": "test Egypt",
+            "zanmka": "2",
+            "predmet": "D",
+            "ucitel": "Petra Bémová"
+        },
+        {
+            "datum": "2017-02-25",
+            "vaha": "4",
+            "popis": "test-starověké státy",
+            "zanmka": "2",
+            "predmet": "D",
+            "ucitel": "Petra Bémová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "3",
+            "popis": "maska 8.2.",
+            "zanmka": "2",
+            "predmet": "VV",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "2",
+            "popis": "dotýkání -2. práce s papírem - 1. 2.",
+            "zanmka": "N",
+            "predmet": "VV",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "2",
+            "popis": "dotýkání- výtv. hry s papírem-1.2.",
+            "zanmka": "N",
+            "predmet": "VV",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "5",
+            "popis": "mandaly-práce s barvou",
+            "zanmka": "N",
+            "predmet": "VV",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "3",
+            "popis": "Vypravování",
+            "zanmka": "2-",
+            "predmet": "ČJ",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-02-22",
+            "vaha": "2",
+            "popis": "Skloňování osobních zájmen",
+            "zanmka": "3",
+            "predmet": "ČJ",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-02-21",
+            "vaha": "5",
+            "popis": "8.2.prověrka č. 1 dělitelnost",
+            "zanmka": "N",
+            "predmet": "M",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-21",
+            "vaha": "3",
+            "popis": "10.2. desetimin. dělitelnost",
+            "zanmka": "3",
+            "predmet": "M",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-21",
+            "vaha": "2",
+            "popis": "27.1. desetimin. dělitelnost",
+            "zanmka": "N",
+            "predmet": "M",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-21",
+            "vaha": "1",
+            "popis": "25.1. desetimin. - dělitelnost",
+            "zanmka": "N",
+            "predmet": "M",
+            "ucitel": "Dagmar Radová"
+        },
+        {
+            "datum": "2017-02-21",
+            "vaha": "3",
+            "popis": "Vyhledávání na internetu, práce se slovníkem",
+            "zanmka": "2",
+            "predmet": "Po",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-02-20",
+            "vaha": "2",
+            "popis": "Skloňování zájmena JÁ",
+            "zanmka": "2-",
+            "predmet": "ČJ",
+            "ucitel": "Kateřina Jandová"
+        },
+        {
+            "datum": "2017-02-07",
+            "vaha": "5",
+            "popis": "test - Unit 1",
+            "zanmka": "3",
+            "predmet": "AJ",
+            "ucitel": "Markéta Kunstová"
+        }
+    ],
+    "uspech": "yes",
+    "pocet": "18"
+}

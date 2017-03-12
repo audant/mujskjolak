@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers" xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+    xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+    xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+    xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+    xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd">
+
+    <scripting:transformer name="Groovy_HTMLEmail_zprOdUcitele" doc:name="Groovy">
+        <scripting:script engine="Groovy"><![CDATA[import groovy.json.JsonSlurper
+import groovy.xml.MarkupBuilder
+
+def zpravy = new JsonSlurper().parseText(payload.toString())
+def rlog = new JsonSlurper().parseText(flowVars.Rlogin.toString())
+
+def writer = new StringWriter()
+def html = new MarkupBuilder(writer)
+
+html.div(style:'font-family: Sans-serif;') {
+	h1('MůjŠkolák - zprávy od učitele')
+	p {
+		mkp.yieldUnescaped('Jméno: ' + rlog.jmeno + ' ' + rlog.prijmeni + '<br/>Třída: ' + rlog.trida + '.<br/>Datum: ' + rlog.den + '.' + rlog.mesic + '.' + rlog.rok)
+	}
+	p { mkp.yieldUnescaped('&nbsp;') }
+	zpravy.zpravy.each { zprava ->
+		h2(zprava.ucitel)
+		p {
+			mkp.yieldUnescaped(zprava.zprava)
+		}
+		p { mkp.yieldUnescaped('&nbsp;') }
+	}
+}
+
+payload = writer
+]]></scripting:script>
+    </scripting:transformer>
+
+    <flow name="mujskolakFlow_zprOdUcitele">
+        <poll doc:name="Poll">
+            <fixed-frequency-scheduler frequency="3600" startDelay="1" timeUnit="SECONDS" />
+            <set-payload value="#['heslo=${skolak.heslo}&amp;uzjmeno=${skolak.jmeno}']" mimeType="application/x-www-form-urlencoded" doc:name="Set Payload" />
+        </poll>
+        <flow-ref name="mujskolakSub_Rlogin" doc:name="mujskolakSub_Rlogin" />
+        <choice doc:name="Choice">
+            <when expression="#[flowVars.Rlogin.get('uspech')=='yes']">
+                <logger message="#[flowVars.Rlogin.get('message')]" level="INFO" doc:name="SuccessLogin" />
+                <set-payload value="#['trida='+flowVars.Rlogin.get('trida')+'&amp;uzjmeno='+flowVars.Rlogin.get('uzjmeno')]" doc:name="Set Payload"
+                    mimeType="application/x-www-form-urlencoded" />
+                <logger message="#['ZpravyOdUciteleSend: '+message.payloadAs(java.lang.String)]" level="DEBUG" doc:name="Logger" />
+                <http:request config-ref="HTTP_Request_MujSkolak" path="/zprOdUcitele.php" method="POST" doc:name="zprOdUcitele" />
+                <logger message="#['ZpravyOdUciteleReceived: '+message.payloadAs(java.lang.String)]" level="DEBUG" doc:name="Logger" />
+                <component class="cz.audant.mujskolak.ZpravyOdUcitele" doc:name="ZpravyOdUcitele" />
+                <set-variable variableName="zpravy" value="#[message.payload.get('zpravy')]" doc:name="zpravy" />
+                <choice doc:name="Choice">
+                    <when expression="#[message.payload.get('pocet')&gt;0]">
+                        <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="mule@bobb.cz" password="AtMmiAQaggSDPwVgGp" to="michal.basl@bobb.cz"
+                            from="mule@bobb.cz" subject="M&#367;j&#352;kol&#225;k - zpr&#225;vy od u&#269;itele" responseTimeout="10000" transformer-refs="Groovy_HTMLEmail_zprOdUcitele"
+                            doc:name="ZpravyOdUcitele" cc="jana.baslova@bobb.cz">
+                            <property key="contentType" value="text/html" />
+                        </smtps:outbound-endpoint>
+                        <foreach collection="#[flowVars.zpravy]" doc:name="For Each">
+                            <logger message="#[flowVars.zpravy.get(counter-1).get('datum')]" level="INFO" doc:name="Logger" />
+                            <set-payload value="#['idskoly='+flowVars.Rlogin.get('idskoly')+'&amp;id='+flowVars.zpravy.get(counter-1).get('id')]"
+                                mimeType="application/x-www-form-urlencoded" doc:name="Set Payload" />
+                            <http:request config-ref="HTTP_Request_MujSkolak" path="/precteno.php" method="POST" doc:name="HTTP" />
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        <logger message="#['Dnes zadne zpravy']" level="INFO" doc:name="Logger" />
+                    </otherwise>
+                </choice>
+            </when>
+            <otherwise>
+                <logger message="#[flowVars.Rlogin.get('message')]" level="ERROR" doc:name="LoginFailed" />
+            </otherwise>
+        </choice>
+    </flow>
+
+</mule>
