@@ -61,12 +61,12 @@ html.div(style:'font-family: Sans-serif;') {
 payload = writer]]></scripting:script>
     </scripting:transformer>
 
-    <flow name="mujskolakFlow_ukazZnamky">
+    <flow name="MujSkolakFlow_ukazZnamky">
         <poll doc:name="Poll">
             <schedulers:cron-scheduler expression="0 0 18 ? * MON,TUE,WED,THU,FRI *" timeZone="Europe/Prague" />
             <set-payload value="#['heslo=${skolak.heslo}&amp;uzjmeno=${skolak.jmeno}']" mimeType="application/x-www-form-urlencoded" doc:name="Set Payload" />
         </poll>
-        <flow-ref name="mujskolakSub_Rlogin" doc:name="mujskolakSub_Rlogin" />
+        <flow-ref name="MujSkolakSub_Rlogin" doc:name="MujSkolakSub_Rlogin" />
         <choice doc:name="Choice">
             <when expression="#[flowVars.Rlogin.get('uspech')=='yes']">
                 <logger message="#[flowVars.Rlogin.get('message')]" level="INFO" doc:name="SuccessLogin" />

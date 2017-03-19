@@ -9,7 +9,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
     <http:request-config name="HTTP_Request_MujSkolak" host="www.mujskolak.cz" port="80" doc:name="HTTP Request Configuration" />
 
-    <sub-flow name="mujskolakSub_Rlogin">
+    <sub-flow name="MujSkolakSub_Rlogin">
         <http:request config-ref="HTTP_Request_MujSkolak" path="/Rlogin.php" method="POST" doc:name="HTTP" />
         <component class="cz.audant.mujskolak.Rlogin" doc:name="Rlogin" />
         <set-variable variableName="Rlogin" value="#[message.payload]" doc:name="Variable" mimeType="application/json" />
