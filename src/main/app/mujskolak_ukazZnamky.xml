@@ -18,21 +18,20 @@
   xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" 
   xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
   xmlns:spring="http://www.springframework.org/schema/beans" 
-  xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
-    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-    http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
-    http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-    http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
-    http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-    http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
-    http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
-    http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
-    http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
-    http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
-    http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
-    http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
-    http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd">
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd">
 
     <scripting:transformer name="Groovy_HTMLEmail_ukazZnamky" doc:name="Groovy">
         <scripting:script engine="Groovy"><![CDATA[import groovy.json.JsonSlurper
@@ -91,9 +90,9 @@ payload = writer]]></scripting:script>
                 <component class="cz.audant.mujskolak.UkazZnamky" doc:name="UkazZnamky" />
                 <choice doc:name="Choice">
                     <when expression="#[message.payload.get('pocet')&gt;0]">
-                        <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="mule@bobb.cz" password="AtMmiAQaggSDPwVgGp" to="michal.basl@bobb.cz"
+                        <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="mule@bobb.cz" password="AtMmiAQaggSDPwVgGp" to="michal.basl@bobb.cz,jana.baslova@bobb.cz,matej.basl@bobb.cz"
                             from="mule@bobb.cz" subject="M&#367;j&#352;kol&#225;k - uka&#382; zn&#225;mky" responseTimeout="10000" transformer-refs="Groovy_HTMLEmail_ukazZnamky"
-                            doc:name="UkazZnamky" cc="jana.baslova@bobb.cz">
+                            doc:name="UkazZnamky" >
                             <property key="contentType" value="text/html" />
                         </smtps:outbound-endpoint>
                     </when>

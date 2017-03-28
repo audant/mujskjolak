@@ -68,9 +68,9 @@ payload = writer
                 <set-variable variableName="zpravy" value="#[message.payload.get('zpravy')]" doc:name="zpravy" />
                 <choice doc:name="Choice">
                     <when expression="#[message.payload.get('pocet')&gt;0]">
-                        <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="mule@bobb.cz" password="AtMmiAQaggSDPwVgGp" to="michal.basl@bobb.cz"
+                        <smtps:outbound-endpoint host="smtp.gmail.com" port="465" user="mule@bobb.cz" password="AtMmiAQaggSDPwVgGp" to="michal.basl@bobb.cz,jana.baslova@bobb.cz,matej.basl@bobb.cz"
                             from="mule@bobb.cz" subject="M&#367;j&#352;kol&#225;k - zpr&#225;vy od u&#269;itele" responseTimeout="10000" transformer-refs="Groovy_HTMLEmail_zprOdUcitele"
-                            doc:name="ZpravyOdUcitele" cc="jana.baslova@bobb.cz">
+                            doc:name="ZpravyOdUcitele" >
                             <property key="contentType" value="text/html" />
                         </smtps:outbound-endpoint>
                         <foreach collection="#[flowVars.zpravy]" doc:name="For Each">
